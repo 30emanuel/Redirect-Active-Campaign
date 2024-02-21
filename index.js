@@ -12,15 +12,13 @@ app.use(bodyParser.json())
 
 const redirectRegister = async (contact, redirectUrl, tokenRedirect) => {
   const headers = {
-    'Api-token': tokenRedirect,
+    'X-API-Key': tokenRedirect,
     "accept": 'application/json',
     'Content-Type': 'application/json;charset=UTF-8',
   }
 
   const payload = {
-    "contact": {
-      ...contact
-    }
+    "email": contact.email
   }
 
 
@@ -49,7 +47,7 @@ app.post('/', async (req, res) => {
     console.log(req.body)
     console.log(contact)
     const data = await redirectRegister(contact, redirectUrl, redirectUrlToken)
-    if (data && data.contact) {
+    if (data && data.id) {
       res.status(200).json(data)
     } else {
       res.status(500).json({ error: `Erro ao tentar cadastrar` })
